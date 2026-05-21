@@ -5,7 +5,11 @@ import { AuthError } from "next-auth";
 
 export async function loginAction(prevState: any, formData: FormData) {
   try {
-    await signIn("credentials", Object.fromEntries(formData));
+    const credentials = Object.fromEntries(formData);
+    await signIn("credentials", {
+      ...credentials,
+      redirectTo: "/project-dashboard",
+    });
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
@@ -59,5 +63,5 @@ export async function registerAction(prevState: any, formData: FormData) {
 }
 
 export async function logoutAction() {
-  await signOut({ redirectTo: "/login" });
+  await signOut({ redirectTo: "/project-dashboard/login" });
 }
