@@ -8,7 +8,7 @@ export async function loginAction(prevState: any, formData: FormData) {
     const credentials = Object.fromEntries(formData);
     await signIn("credentials", {
       ...credentials,
-      redirectTo: "/",
+      redirectTo: "/project-dashboard",
     });
   } catch (error) {
     if (error instanceof AuthError) {
