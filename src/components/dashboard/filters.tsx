@@ -7,8 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Search, X } from "lucide-react";
 
 const LAB_LABELS: Record<string, string> = {
-  iit_bombay_fedex_alfa: "IIT Bombay FedEx Alfa",
-  iit_madras_fedex_smart_center: "IIT Madras FedEx Smart Center",
+  iit_bombay_fedex_alfa: "IIT Bombay FedEx ALFA",
+  iit_madras_fedex_smart_center: "IIT Madras FedEx SMART",
 };
 
 export function Filters({
@@ -41,6 +41,12 @@ export function Filters({
       } else {
         params.delete(name);
       }
+
+      // Reset page to 1 whenever a filter changes
+      if (name !== "page") {
+        params.delete("page");
+      }
+
       return params.toString();
     },
     [searchParams]
@@ -103,11 +109,11 @@ export function Filters({
               className="w-full sm:w-[220px] bg-muted/40 border-border/60 shrink-0"
             >
               <SelectValue>
-                {LAB_LABELS[currentLab] ?? "All Labs"}
+                {LAB_LABELS[currentLab] ?? "IIT Centers"}
               </SelectValue>
             </SelectTrigger>
             <SelectContent className="min-w-[260px]">
-              <SelectItem value="all">All Labs</SelectItem>
+              <SelectItem value="all">IIT Centers</SelectItem>
               {Object.entries(LAB_LABELS).map(([val, label]) => (
                 <SelectItem key={val} value={val}>{label}</SelectItem>
               ))}
@@ -128,12 +134,12 @@ export function Filters({
             >
               <SelectValue>
                 {currentCategory && currentCategory !== "all"
-                  ? categories.find((c) => c.id === currentCategory)?.name ?? "All Categories"
-                  : "All Categories"}
+                  ? categories.find((c) => c.id === currentCategory)?.name ?? "Categories"
+                  : "Categories"}
               </SelectValue>
             </SelectTrigger>
             <SelectContent className={"min-w-[260px]"}>
-              <SelectItem value="all">All Categories</SelectItem>
+              <SelectItem value="all">Categories</SelectItem>
               {categories.map((c) => (
                 <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
               ))}
@@ -154,12 +160,12 @@ export function Filters({
             >
               <SelectValue>
                 {currentStatus && currentStatus !== "all"
-                  ? statuses.find((s) => s.id === currentStatus)?.statusName ?? "All Statuses"
-                  : "All Statuses"}
+                  ? statuses.find((s) => s.id === currentStatus)?.statusName ?? "Status"
+                  : "Status"}
               </SelectValue>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Statuses</SelectItem>
+              <SelectItem value="all">Status</SelectItem>
               {statuses.map((s) => (
                 <SelectItem key={s.id} value={s.id}>{s.statusName}</SelectItem>
               ))}

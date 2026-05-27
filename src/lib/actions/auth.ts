@@ -8,7 +8,7 @@ export async function loginAction(prevState: any, formData: FormData) {
     const credentials = Object.fromEntries(formData);
     await signIn("credentials", {
       ...credentials,
-      redirectTo: "/project-dashboard",
+      redirectTo: "/",
     });
   } catch (error) {
     if (error instanceof AuthError) {
@@ -63,5 +63,5 @@ export async function registerAction(prevState: any, formData: FormData) {
 }
 
 export async function logoutAction() {
-  await signOut({ redirectTo: "/project-dashboard/login" });
+  await signOut({ redirectTo: "/login" });
 }

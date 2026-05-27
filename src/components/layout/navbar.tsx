@@ -27,7 +27,7 @@ export async function Navbar() {
             <Boxes className="h-4.5 w-4.5 text-primary-foreground" strokeWidth={2} />
           </div>
           <span className="hidden font-bold text-base sm:inline-block tracking-tight">
-            FedEx <span className="text-primary">Projects</span>
+            IIT-FedEx <span className="text-primary">Projects</span>
           </span>
         </Link>
 

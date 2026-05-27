@@ -33,7 +33,7 @@ async function seed() {
   await seedProjectsBatch4();
 
   console.log("\n✓ Database seeded successfully!");
-  console.log("  38 IITM FedEx Smart Center projects seeded.");
+  console.log("  38 IITM FedEx SMART Projects seeded.");
   console.log("  Login: admin@fedex.com / password123");
   console.log("  Login: manager@iitm.ac.in / password123");
 }

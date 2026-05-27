@@ -48,7 +48,7 @@ export default async function ProjectDetailPage(props: { params: Promise<{ id: s
             {project.progressStatus?.statusName || "Unknown"}
           </Badge>
           <span className="text-sm text-muted-foreground ml-auto uppercase tracking-wider font-medium">
-            {project.labOrigin === "iit_bombay_fedex_alfa" ? "IIT Bombay FedEx Alfa" : "IIT Madras FedEx Smart Center"}
+            {project.labOrigin === "iit_bombay_fedex_alfa" ? "IIT Bombay FedEx ALFA" : "IIT Madras FedEx SMART"}
           </span>
         </div>
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight">{project.title}</h1>

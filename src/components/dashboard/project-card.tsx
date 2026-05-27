@@ -2,10 +2,11 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import Link from "next/link";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ArrowUpRight } from "lucide-react";
+import { Badge } from "../ui/badge";
 
 const LAB_LABELS: Record<string, string> = {
-  iit_bombay_fedex_alfa: "IIT Bombay FedEx Alfa",
-  iit_madras_fedex_smart_center: "IIT Madras FedEx Smart Center",
+  iit_bombay_fedex_alfa: "IIT Bombay FedEx ALFA",
+  iit_madras_fedex_smart_center: "IIT Madras FedEx SMART",
 };
 
 function getStatusClass(statusName?: string): string {
@@ -78,7 +79,17 @@ export function ProjectCard({ project }: { project: any }) {
             {project.shortDesc}
           </p>
         </CardContent>
-
+        {
+          project.tags.length > 0 && (
+            <div className="flex flex-wrap gap-1 p-4">
+              {project.tags.map((t: any) => (
+                <Badge key={t.tag.id} variant="secondary" className="bg-secondary/50">
+                  {t.tag.name}
+                </Badge>
+              ))}
+            </div>
+          )
+        }
         <CardFooter className="flex-none pt-3 border-t border-border/60 mt-auto">
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-2 min-w-0">
@@ -86,7 +97,7 @@ export function ProjectCard({ project }: { project: any }) {
                 {leadProfs.slice(0, 3).map((prof: any) => (
                   <Avatar key={prof.id} className="border-2 border-card h-7 w-7">
                     <AvatarFallback className="text-[10px] bg-primary/10 text-primary font-semibold">
-                      {prof.name.charAt(0)}
+                      {prof.name?.trim().charAt(0).toUpperCase() || "?"}
                     </AvatarFallback>
                   </Avatar>
                 ))}

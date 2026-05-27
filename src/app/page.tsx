@@ -4,6 +4,8 @@ import { eq, and, or, like } from "drizzle-orm";
 import { Filters } from "@/components/dashboard/filters";
 import { ProjectCard } from "@/components/dashboard/project-card";
 import { Layers, FlaskConical, CheckCircle2, Clock } from "lucide-react";
+import { PaginationControls } from "@/components/dashboard/pagination-controls";
+import { DashboardStateManager } from "@/components/dashboard/dashboard-state-manager";
 
 export default async function DashboardPage(props: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -49,6 +51,11 @@ export default async function DashboardPage(props: {
     where: and(...conditions),
     with: {
       category: true,
+      tags: {
+        with: {
+          tag: true,
+        }
+      },
       progressStatus: true,
       contributors: {
         with: {
@@ -70,8 +77,20 @@ export default async function DashboardPage(props: {
 
   const isFiltered = !!(q || lab || categoryId || statusId);
 
+  // Pagination Logic
+  const pageStr = typeof searchParams.page === "string" ? searchParams.page : "1";
+  const currentPage = parseInt(pageStr, 10) || 1;
+  const pageSize = 9;
+  const totalFiltered = projectsData.length;
+  const totalPages = Math.ceil(totalFiltered / pageSize) || 1;
+  const paginatedProjects = projectsData.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
   return (
     <div className="flex flex-col min-h-full">
+      <DashboardStateManager />
       {/* ── Hero ───────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden hero-gradient border-b border-border/50">
         <div className="mesh-orb mesh-orb-1" />
@@ -79,16 +98,11 @@ export default async function DashboardPage(props: {
         <div className="w-full max-w-screen-2xl mx-auto relative px-4 md:px-8 py-12 md:py-16">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
             <div className="max-w-xl">
-              <div className="inline-flex items-center gap-2 text-xs font-semibold text-primary bg-primary/10 rounded-full px-3 py-1 mb-4">
-                <FlaskConical className="h-3.5 w-3.5" />
-                FedEx Innovation Labs
-              </div>
+
               <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight">
                 Project Dashboard
               </h1>
-              <p className="text-muted-foreground mt-3 text-base md:text-lg max-w-md leading-relaxed">
-                Discover and track research projects across FedEx's partner labs.
-              </p>
+
             </div>
 
             {/* Stats row */}
@@ -128,11 +142,11 @@ export default async function DashboardPage(props: {
         <div className="mt-8">
           {isFiltered && (
             <p className="text-sm text-muted-foreground mb-4">
-              Showing <span className="font-semibold text-foreground">{projectsData.length}</span> result{projectsData.length !== 1 ? "s" : ""}
+              Showing <span className="font-semibold text-foreground">{totalFiltered}</span> result{totalFiltered !== 1 ? "s" : ""}
               {q && <> for <span className="font-semibold text-foreground">"{q}"</span></>}
             </p>
           )}
-          {projectsData.length === 0 ? (
+          {paginatedProjects.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-64 border border-dashed rounded-2xl border-border bg-muted/20 text-center gap-3">
               <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center">
                 <Layers className="h-5 w-5 text-muted-foreground" />
@@ -141,11 +155,18 @@ export default async function DashboardPage(props: {
               <p className="text-xs text-muted-foreground/70">Try adjusting or clearing the filters above.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {projectsData.map((project) => (
-                <ProjectCard key={project.id} project={project as any} />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {paginatedProjects.map((project) => (
+                  <ProjectCard key={project.id} project={project as any} />
+                ))}
+              </div>
+
+              <PaginationControls 
+                currentPage={currentPage} 
+                totalPages={totalPages} 
+              />
+            </>
           )}
         </div>
       </div>
