@@ -64,7 +64,7 @@ export default async function DashboardPage(props: {
         }
       }
     },
-    orderBy: (projects, { desc }) => [desc(projects.createdAt)],
+    orderBy: (projects, { asc }) => [asc(projects.title)],
   });
 
   // All published projects for stats (unfiltered)
