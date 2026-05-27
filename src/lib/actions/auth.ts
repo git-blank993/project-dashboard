@@ -63,5 +63,5 @@ export async function registerAction(prevState: any, formData: FormData) {
 }
 
 export async function logoutAction() {
-  await signOut({ redirectTo: "/login" });
+  await signOut({ redirectTo: "/project-dashboard" });
 }
