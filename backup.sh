@@ -2,7 +2,7 @@
 
 # Configuration - Hardcoded paths
 SOURCE_DB="/home/fedex/Github/project-dashboard/local.db"
-BASE_DIR="/home/fedex/Github/project-dashboard"
+BASE_DIR="/home/fedex/project-dashboard"
 
 # Formatting dates
 TODAY=$(date +%F)              # Output: YYYY-MM-DD
